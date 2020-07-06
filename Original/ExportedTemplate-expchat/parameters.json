@@ -1,0 +1,33 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "components_expstorage_application_insight_WorkspaceResourceId": {
+            "value": null
+        },
+        "sites_expchat_name": {
+            "value": null
+        },
+        "sites_expstorage_name": {
+            "value": null
+        },
+        "actionGroups_Migration_AG1_name": {
+            "value": null
+        },
+        "actionGroups_Migration_AG2_name": {
+            "value": null
+        },
+        "storageAccounts_expdatastorage_name": {
+            "value": null
+        },
+        "components_expstorage_application_insight_name": {
+            "value": null
+        },
+        "smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name": {
+            "value": null
+        },
+        "serverfarms_ServicePlanec4146c7_a0d3_externalid": {
+            "value": null
+        }
+    }
+}

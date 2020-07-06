@@ -1,0 +1,484 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "components_expstorage_application_insight_WorkspaceResourceId": {
+            "type": "SecureString"
+        },
+        "sites_expchat_name": {
+            "defaultValue": "expchat",
+            "type": "String"
+        },
+        "sites_expstorage_name": {
+            "defaultValue": "expstorage",
+            "type": "String"
+        },
+        "actionGroups_Migration_AG1_name": {
+            "defaultValue": "Migration_AG1",
+            "type": "String"
+        },
+        "actionGroups_Migration_AG2_name": {
+            "defaultValue": "Migration_AG2",
+            "type": "String"
+        },
+        "storageAccounts_expdatastorage_name": {
+            "defaultValue": "expdatastorage",
+            "type": "String"
+        },
+        "components_expstorage_application_insight_name": {
+            "defaultValue": "expstorage_application_insight",
+            "type": "String"
+        },
+        "smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name": {
+            "defaultValue": "failure anomalies - expstorage_application_insight",
+            "type": "String"
+        },
+        "serverfarms_ServicePlanec4146c7_a0d3_externalid": {
+            "defaultValue": "/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('actionGroups_Migration_AG1_name')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "Migrated1",
+                "enabled": true,
+                "emailReceivers": [],
+                "smsReceivers": [],
+                "webhookReceivers": [],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            }
+        },
+        {
+            "type": "microsoft.insights/actionGroups",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('actionGroups_Migration_AG2_name')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "Migrated2",
+                "enabled": true,
+                "emailReceivers": [],
+                "smsReceivers": [],
+                "webhookReceivers": [],
+                "itsmReceivers": [],
+                "azureAppPushReceivers": [],
+                "automationRunbookReceivers": [],
+                "voiceReceivers": [],
+                "logicAppReceivers": [],
+                "azureFunctionReceivers": []
+            }
+        },
+        {
+            "type": "microsoft.insights/components",
+            "apiVersion": "2020-02-02-preview",
+            "name": "[parameters('components_expstorage_application_insight_name')]",
+            "location": "eastus",
+            "tags": {
+                "applicationType": "web",
+                "hidden-link:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/expchat/providers/Microsoft.Web/sites/expstorage": "Resource"
+            },
+            "kind": "web",
+            "properties": {
+                "Application_Type": "web",
+                "Flow_Type": "Redfield",
+                "Request_Source": "AppServiceEnablementCreate",
+                "publicNetworkAccessForIngestion": "Enabled",
+                "publicNetworkAccessForQuery": "Enabled",
+                "WorkspaceResourceId": "[parameters('components_expstorage_application_insight_WorkspaceResourceId')]"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('storageAccounts_expdatastorage_name')]",
+            "location": "centralus",
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "kind": "Storage",
+            "properties": {
+                "networkAcls": {
+                    "bypass": "AzureServices",
+                    "virtualNetworkRules": [],
+                    "ipRules": [],
+                    "defaultAction": "Allow"
+                },
+                "supportsHttpsTrafficOnly": true,
+                "encryption": {
+                    "services": {
+                        "file": {
+                            "keyType": "Account",
+                            "enabled": true
+                        },
+                        "blob": {
+                            "keyType": "Account",
+                            "enabled": true
+                        }
+                    },
+                    "keySource": "Microsoft.Storage"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('sites_expchat_name')]",
+            "location": "Central US",
+            "tags": {
+                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
+            },
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_expchat_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_expchat_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_ServicePlanec4146c7_a0d3_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {},
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": true,
+                "redundancyMode": "None"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites",
+            "apiVersion": "2018-11-01",
+            "name": "[parameters('sites_expstorage_name')]",
+            "location": "Central US",
+            "tags": {
+                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
+            },
+            "kind": "app",
+            "properties": {
+                "enabled": true,
+                "hostNameSslStates": [
+                    {
+                        "name": "[concat(parameters('sites_expstorage_name'), '.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Standard"
+                    },
+                    {
+                        "name": "[concat(parameters('sites_expstorage_name'), '.scm.azurewebsites.net')]",
+                        "sslState": "Disabled",
+                        "hostType": "Repository"
+                    }
+                ],
+                "serverFarmId": "[parameters('serverfarms_ServicePlanec4146c7_a0d3_externalid')]",
+                "reserved": false,
+                "isXenon": false,
+                "hyperV": false,
+                "siteConfig": {},
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
+                "redundancyMode": "None"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                },
+                "deleteRetentionPolicy": {
+                    "enabled": false
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/fileServices",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+            ],
+            "sku": {
+                "name": "Standard_RAGRS",
+                "tier": "Standard"
+            },
+            "properties": {
+                "cors": {
+                    "corsRules": []
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_expchat_name'), '/web')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_expchat_name'))]"
+            ],
+            "tags": {
+                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
+            },
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$expchat",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": true,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.0",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/config",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_expstorage_name'), '/web')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_expstorage_name'))]"
+            ],
+            "tags": {
+                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
+            },
+            "properties": {
+                "numberOfWorkers": 1,
+                "defaultDocuments": [
+                    "Default.htm",
+                    "Default.html",
+                    "Default.asp",
+                    "index.htm",
+                    "index.html",
+                    "iisstart.htm",
+                    "default.aspx",
+                    "index.php",
+                    "hostingstart.html"
+                ],
+                "netFrameworkVersion": "v4.0",
+                "phpVersion": "5.6",
+                "requestTracingEnabled": false,
+                "remoteDebuggingEnabled": false,
+                "httpLoggingEnabled": false,
+                "logsDirectorySizeLimit": 35,
+                "detailedErrorLoggingEnabled": false,
+                "publishingUsername": "$expstorage",
+                "scmType": "None",
+                "use32BitWorkerProcess": true,
+                "webSocketsEnabled": false,
+                "alwaysOn": false,
+                "managedPipelineMode": "Integrated",
+                "virtualApplications": [
+                    {
+                        "virtualPath": "/",
+                        "physicalPath": "site\\wwwroot",
+                        "preloadEnabled": false
+                    }
+                ],
+                "loadBalancing": "LeastRequests",
+                "experiments": {
+                    "rampUpRules": []
+                },
+                "autoHealEnabled": false,
+                "localMySqlEnabled": false,
+                "ipSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictions": [
+                    {
+                        "ipAddress": "Any",
+                        "action": "Allow",
+                        "priority": 1,
+                        "name": "Allow all",
+                        "description": "Allow all access"
+                    }
+                ],
+                "scmIpSecurityRestrictionsUseMain": false,
+                "http20Enabled": false,
+                "minTlsVersion": "1.0",
+                "ftpsState": "AllAllowed",
+                "reservedInstanceCount": 0
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_expchat_name'), '/', parameters('sites_expchat_name'), '.azurewebsites.net')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_expchat_name'))]"
+            ],
+            "properties": {
+                "siteName": "expchat",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Web/sites/hostNameBindings",
+            "apiVersion": "2018-11-01",
+            "name": "[concat(parameters('sites_expstorage_name'), '/', parameters('sites_expstorage_name'), '.azurewebsites.net')]",
+            "location": "Central US",
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/sites', parameters('sites_expstorage_name'))]"
+            ],
+            "properties": {
+                "siteName": "expstorage",
+                "hostNameType": "Verified"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default/dev')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_expdatastorage_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+            "apiVersion": "2019-06-01",
+            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default/prod')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_expdatastorage_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+            ],
+            "properties": {
+                "publicAccess": "None"
+            }
+        },
+        {
+            "type": "microsoft.alertsmanagement/smartdetectoralertrules",
+            "apiVersion": "2019-06-01",
+            "name": "[parameters('smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('microsoft.insights/components', parameters('components_expstorage_application_insight_name'))]",
+                "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG1_name'))]",
+                "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG2_name'))]"
+            ],
+            "tags": {
+                "hidden-link:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/expchat/providers/microsoft.insights/components/expstorage_application_insight": "Resource"
+            },
+            "properties": {
+                "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls",
+                "state": "Enabled",
+                "severity": "Sev3",
+                "frequency": "PT1M",
+                "detector": {
+                    "id": "FailureAnomaliesDetector",
+                    "name": "Failure Anomalies",
+                    "description": "Detects if your application experiences an abnormal rise in the rate of HTTP requests or dependency calls that are reported as failed. The anomaly detection uses machine learning algorithms and occurs in near real time, therefore there's no need to define a frequency for this signal.<br/></br/>To help you triage and diagnose the problem, an analysis of the characteristics of the failures and related telemetry is provided with the detection. This feature works for any app, hosted in the cloud or on your own servers, that generates request or dependency telemetry - for example, if you have a worker role that calls <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackrequest\\\" target=\\\"_blank\\\">TrackRequest()</a> or <a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/application-insights/app-insights-api-custom-events-metrics#trackdependency\\\" target=\\\"_blank\\\">TrackDependency()</a>.<br/><br/><a class=\"ext-smartDetecor-link\" href=\\\"https://docs.microsoft.com/azure/azure-monitor/app/proactive-failure-diagnostics\\\" target=\\\"_blank\\\">Learn more about Failure Anomalies</a>",
+                    "supportedResourceTypes": [
+                        "ApplicationInsights"
+                    ]
+                },
+                "scope": [
+                    "[resourceId('microsoft.insights/components', parameters('components_expstorage_application_insight_name'))]"
+                ],
+                "actionGroups": {
+                    "groupIds": [
+                        "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG1_name'))]",
+                        "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG2_name'))]"
+                    ]
+                }
+            }
+        }
+    ]
+}
