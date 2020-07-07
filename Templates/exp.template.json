@@ -125,9 +125,9 @@
                     {
                         "name": "Auto created scale condition",
                         "capacity": {
-                            "minimum": "1",
-                            "maximum": "3",
-                            "default": "1"
+                            "minimum": 1,
+                            "maximum": 3,
+                            "default": 1
                         },
                         "rules": [
                             {
@@ -147,7 +147,7 @@
                                 "scaleAction": {
                                     "direction": "Increase",
                                     "type": "ChangeCount",
-                                    "value": "1",
+                                    "value": 1,
                                     "cooldown": "PT5M"
                                 }
                             }
@@ -157,42 +157,6 @@
                 "enabled": true,
                 "name": "[parameters('autoscale_rules_name')]",
                 "targetResourceUri": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
-            }
-        },
-        {
-            "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
-            "apiVersion": "2016-12-01",
-            "name": "[concat(parameters('exp_vault_name'), '/DefaultPolicy')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
-            ],
-            "properties": {
-                "backupManagementType": "AzureIaasVM",
-                "protectedItemsCount": 0
-            }
-        },
-        {
-            "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
-            "apiVersion": "2016-12-01",
-            "name": "[concat(parameters('exp_vault_name'), '/HourlyLogBackup')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
-            ],
-            "properties": {
-                "backupManagementType": "AzureWorkload",
-                "protectedItemsCount": 0
-            }
-        },
-        {
-            "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
-            "apiVersion": "2018-01-10",
-            "name": "[concat(parameters('exp_vault_name'), '/defaultAlertSetting')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
-            ],
-            "properties": {
-                "sendToOwners": "DoNotSend",
-                "customEmailAddresses": []
             }
         },
         {
