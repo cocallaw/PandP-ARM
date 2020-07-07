@@ -35,7 +35,7 @@
     "resources": [
         {
             "type": "Microsoft.RecoveryServices/vaults",
-            "apiVersion": "2018-01-10",
+            "apiVersion": "2020-02-02",
             "name": "[parameters('vaults_expresourcegroup_name')]",
             "location": "centralus",
             "sku": {
@@ -90,7 +90,7 @@
         },
         {
             "type": "Microsoft.Web/serverfarms",
-            "apiVersion": "2018-02-01",
+            "apiVersion": "2019-08-01",
             "name": "[parameters('serverfarms_ServicePlanec4146c7_a0d3_name')]",
             "location": "Central US",
             "sku": {
