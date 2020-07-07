@@ -11,6 +11,12 @@
         "exp_sqlserver_name": {
             "value": null
         },
+        "exp_sqlserver_login": {
+            "value": null
+        },
+        "exp_sqlserver_password": {
+            "value": null
+        },
         "exp_vault_name": {
             "value": null
         },

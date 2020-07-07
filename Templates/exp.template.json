@@ -14,6 +14,14 @@
             "defaultValue": "expmssqlserver",
             "type": "String"
         },
+        "exp_sqlserver_login": {
+            "defaultValue": "ChrisAdmin",
+            "type": "String"
+        },
+        "exp_sqlserver_password": {
+            "defaultValue": "SuperSecret",
+            "type": "SecureString"
+        },
         "exp_vault_name": {
             "defaultValue": "expresourcegroup",
             "type": "String"
@@ -55,7 +63,8 @@
             "location": "[parameters('az_region')]",
             "kind": "v12.0",
             "properties": {
-                "administratorLogin": "ChrisAdmin",
+                "administratorLogin": "[parameters('exp_sqlserver_login')]",
+                "administratorLoginPassword": "[parameters('exp_sqlserver_password')]",
                 "version": "12.0"
             }
         },
