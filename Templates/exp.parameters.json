@@ -2,25 +2,25 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "sites_expauth_name": {
+        "expauth_site_name": {
             "value": null
         },
-        "sites_expadmin_name": {
+        "expadmin_site_name": {
             "value": null
         },
-        "servers_expmssqlserver_name": {
+        "exp_sqlserver_name": {
             "value": null
         },
-        "vaults_expresourcegroup_name": {
+        "exp_vault_name": {
             "value": null
         },
-        "serverfarms_ServicePlanec4146c7_a0d3_name": {
+        "exp_asp_name": {
             "value": null
         },
-        "storageAccounts_sqlvakrspntmghm4le_name": {
+        "exp_storageaccount_name": {
             "value": null
         },
-        "autoscalesettings_Auto_scaling_rules_name": {
+        "autoscale_rules_name": {
             "value": null
         }
     }

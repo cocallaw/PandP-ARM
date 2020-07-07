@@ -2,31 +2,31 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "sites_expauth_name": {
+        "expauth_site_name": {
             "defaultValue": "expauth",
             "type": "String"
         },
-        "sites_expadmin_name": {
+        "expadmin_site_name": {
             "defaultValue": "expadmin",
             "type": "String"
         },
-        "servers_expmssqlserver_name": {
+        "exp_sqlserver_name": {
             "defaultValue": "expmssqlserver",
             "type": "String"
         },
-        "vaults_expresourcegroup_name": {
+        "exp_vault_name": {
             "defaultValue": "expresourcegroup",
             "type": "String"
         },
-        "serverfarms_ServicePlanec4146c7_a0d3_name": {
-            "defaultValue": "ServicePlanec4146c7-a0d3",
+        "exp_asp_name": {
+            "defaultValue": "CHANGE TO VAR WITH RANDOM CONCAT / ASP",
             "type": "String"
         },
-        "storageAccounts_sqlvakrspntmghm4le_name": {
-            "defaultValue": "sqlvakrspntmghm4le",
+        "exp_storageaccount_name": {
+            "defaultValue": "CHANGE TO VAR WITH RANDOM CONCAT",
             "type": "String"
         },
-        "autoscalesettings_Auto_scaling_rules_name": {
+        "autoscale_rules_name": {
             "defaultValue": "Auto_scaling_rules",
             "type": "String"
         }
@@ -36,7 +36,7 @@
         {
             "type": "Microsoft.RecoveryServices/vaults",
             "apiVersion": "2020-02-02",
-            "name": "[parameters('vaults_expresourcegroup_name')]",
+            "name": "[parameters('exp_vault_name')]",
             "location": "centralus",
             "sku": {
                 "name": "RS0",
@@ -47,7 +47,7 @@
         {
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2019-06-01-preview",
-            "name": "[parameters('servers_expmssqlserver_name')]",
+            "name": "[parameters('exp_sqlserver_name')]",
             "location": "centralus",
             "kind": "v12.0",
             "properties": {
@@ -58,7 +58,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "name": "[parameters('storageAccounts_sqlvakrspntmghm4le_name')]",
+            "name": "[parameters('exp_storageaccount_name')]",
             "location": "centralus",
             "sku": {
                 "name": "Standard_LRS",
@@ -91,7 +91,7 @@
         {
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2019-08-01",
-            "name": "[parameters('serverfarms_ServicePlanec4146c7_a0d3_name')]",
+            "name": "[parameters('exp_asp_name')]",
             "location": "Central US",
             "sku": {
                 "name": "S1",
@@ -115,10 +115,10 @@
         {
             "type": "microsoft.insights/autoscalesettings",
             "apiVersion": "2014-04-01",
-            "name": "[parameters('autoscalesettings_Auto_scaling_rules_name')]",
+            "name": "[parameters('autoscale_rules_name')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
             "properties": {
                 "profiles": [
@@ -134,7 +134,7 @@
                                 "metricTrigger": {
                                     "metricName": "HttpQueueLength",
                                     "metricNamespace": "",
-                                    "metricResourceUri": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]",
+                                    "metricResourceUri": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]",
                                     "timeGrain": "PT1M",
                                     "statistic": "Max",
                                     "timeWindow": "PT5M",
@@ -155,16 +155,16 @@
                     }
                 ],
                 "enabled": true,
-                "name": "[parameters('autoscalesettings_Auto_scaling_rules_name')]",
-                "targetResourceUri": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]"
+                "name": "[parameters('autoscale_rules_name')]",
+                "targetResourceUri": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             }
         },
         {
             "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
             "apiVersion": "2016-12-01",
-            "name": "[concat(parameters('vaults_expresourcegroup_name'), '/DefaultPolicy')]",
+            "name": "[concat(parameters('exp_vault_name'), '/DefaultPolicy')]",
             "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_expresourcegroup_name'))]"
+                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
             ],
             "properties": {
                 "backupManagementType": "AzureIaasVM",
@@ -174,9 +174,9 @@
         {
             "type": "Microsoft.RecoveryServices/vaults/backupPolicies",
             "apiVersion": "2016-12-01",
-            "name": "[concat(parameters('vaults_expresourcegroup_name'), '/HourlyLogBackup')]",
+            "name": "[concat(parameters('exp_vault_name'), '/HourlyLogBackup')]",
             "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_expresourcegroup_name'))]"
+                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
             ],
             "properties": {
                 "backupManagementType": "AzureWorkload",
@@ -186,9 +186,9 @@
         {
             "type": "Microsoft.RecoveryServices/vaults/replicationAlertSettings",
             "apiVersion": "2018-01-10",
-            "name": "[concat(parameters('vaults_expresourcegroup_name'), '/defaultAlertSetting')]",
+            "name": "[concat(parameters('exp_vault_name'), '/defaultAlertSetting')]",
             "dependsOn": [
-                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('vaults_expresourcegroup_name'))]"
+                "[resourceId('Microsoft.RecoveryServices/vaults', parameters('exp_vault_name'))]"
             ],
             "properties": {
                 "sendToOwners": "DoNotSend",
@@ -198,9 +198,9 @@
         {
             "type": "Microsoft.Sql/servers/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/CreateIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/CreateIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -209,9 +209,9 @@
         {
             "type": "Microsoft.Sql/servers/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/DbParameterization')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/DbParameterization')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -220,9 +220,9 @@
         {
             "type": "Microsoft.Sql/servers/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/DefragmentIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/DefragmentIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -231,9 +231,9 @@
         {
             "type": "Microsoft.Sql/servers/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/DropIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/DropIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -242,9 +242,9 @@
         {
             "type": "Microsoft.Sql/servers/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/ForceLastGoodPlan')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/ForceLastGoodPlan')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Enabled"
@@ -253,10 +253,10 @@
         {
             "type": "Microsoft.Sql/servers/auditingPolicies",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "auditingState": "Disabled"
@@ -265,9 +265,9 @@
         {
             "type": "Microsoft.Sql/servers/auditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -281,10 +281,10 @@
         {
             "type": "Microsoft.Sql/servers/databases",
             "apiVersion": "2019-06-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp')]",
             "location": "centralus",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "sku": {
                 "name": "Basic",
@@ -305,10 +305,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/auditingPolicies",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "auditingState": "Disabled"
@@ -317,9 +317,9 @@
         {
             "type": "Microsoft.Sql/servers/databases/auditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -331,9 +331,9 @@
         {
             "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -345,10 +345,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Enabled"
@@ -357,9 +357,9 @@
         {
             "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
             "apiVersion": "2018-06-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -376,10 +376,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/current')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/current')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "status": "Disabled"
@@ -388,9 +388,9 @@
         {
             "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/master/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "recurringScans": {
@@ -402,9 +402,9 @@
         {
             "type": "Microsoft.Sql/servers/encryptionProtector",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/current')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/current')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "kind": "servicemanaged",
             "properties": {
@@ -415,9 +415,9 @@
         {
             "type": "Microsoft.Sql/servers/extendedAuditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -431,9 +431,9 @@
         {
             "type": "Microsoft.Sql/servers/firewallRules",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/AllowAllWindowsAzureIps')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/AllowAllWindowsAzureIps')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "startIpAddress": "0.0.0.0",
@@ -443,9 +443,9 @@
         {
             "type": "Microsoft.Sql/servers/firewallRules",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/ClientIPAddress_2019-08-21_06:36:17')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/ClientIPAddress_2019-08-21_06:36:17')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "startIpAddress": "93.175.194.66",
@@ -455,9 +455,9 @@
         {
             "type": "Microsoft.Sql/servers/firewallRules",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Perfectial')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Perfectial')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "startIpAddress": "194.44.126.140",
@@ -467,9 +467,9 @@
         {
             "type": "Microsoft.Sql/servers/firewallRules",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Perfectial_VasylBedrii')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Perfectial_VasylBedrii')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "startIpAddress": "64.72.132.130",
@@ -479,9 +479,9 @@
         {
             "type": "Microsoft.Sql/servers/keys",
             "apiVersion": "2015-05-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/ServiceManaged')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/ServiceManaged')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "kind": "servicemanaged",
             "properties": {
@@ -491,9 +491,9 @@
         {
             "type": "Microsoft.Sql/servers/securityAlertPolicies",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Enabled",
@@ -510,9 +510,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_sqlvakrspntmghm4le_name'), '/default')]",
+            "name": "[concat(parameters('exp_storageaccount_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_sqlvakrspntmghm4le_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('exp_storageaccount_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -530,9 +530,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_sqlvakrspntmghm4le_name'), '/default')]",
+            "name": "[concat(parameters('exp_storageaccount_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_sqlvakrspntmghm4le_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('exp_storageaccount_name'))]"
             ],
             "sku": {
                 "name": "Standard_LRS",
@@ -547,10 +547,10 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[parameters('sites_expadmin_name')]",
+            "name": "[parameters('expadmin_site_name')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -560,17 +560,17 @@
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('sites_expadmin_name'), '.azurewebsites.net')]",
+                        "name": "[concat(parameters('expadmin_site_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "[concat(parameters('sites_expadmin_name'), '.scm.azurewebsites.net')]",
+                        "name": "[concat(parameters('expadmin_site_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]",
                 "reserved": false,
                 "isXenon": false,
                 "hyperV": false,
@@ -588,10 +588,10 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[parameters('sites_expauth_name')]",
+            "name": "[parameters('expauth_site_name')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]"
+                "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -601,17 +601,17 @@
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('sites_expauth_name'), '.azurewebsites.net')]",
+                        "name": "[concat(parameters('expauth_site_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "[concat(parameters('sites_expauth_name'), '.scm.azurewebsites.net')]",
+                        "name": "[concat(parameters('expauth_site_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
                 ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serverfarms_ServicePlanec4146c7_a0d3_name'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]",
                 "reserved": false,
                 "isXenon": false,
                 "hyperV": false,
@@ -629,10 +629,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expadmin_name'), '/web')]",
+            "name": "[concat(parameters('expadmin_site_name'), '/web')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expadmin_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expadmin_site_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -704,10 +704,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expauth_name'), '/web')]",
+            "name": "[concat(parameters('expauth_site_name'), '/web')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expauth_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expauth_site_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -780,10 +780,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expadmin_name'), '/', parameters('sites_expadmin_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('expadmin_site_name'), '/', parameters('expadmin_site_name'), '.azurewebsites.net')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expadmin_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expadmin_site_name'))]"
             ],
             "properties": {
                 "siteName": "expadmin",
@@ -793,10 +793,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expauth_name'), '/', parameters('sites_expauth_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('expauth_site_name'), '/', parameters('expauth_site_name'), '.azurewebsites.net')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expauth_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expauth_site_name'))]"
             ],
             "properties": {
                 "siteName": "expauth",
@@ -806,10 +806,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/CreateIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/CreateIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -818,10 +818,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/DbParameterization')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/DbParameterization')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -830,10 +830,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/DefragmentIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/DefragmentIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -842,10 +842,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/DropIndex')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/DropIndex')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Disabled"
@@ -854,10 +854,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/advisors",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/ForceLastGoodPlan')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/ForceLastGoodPlan')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "autoExecuteValue": "Enabled"
@@ -866,11 +866,11 @@
         {
             "type": "Microsoft.Sql/servers/databases/auditingPolicies",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "auditingState": "Disabled"
@@ -879,10 +879,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/auditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -894,10 +894,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "weeklyRetention": "PT0S",
@@ -909,10 +909,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
             "apiVersion": "2017-10-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "retentionDays": 7
@@ -921,10 +921,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/extendedAuditingSettings",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -936,11 +936,11 @@
         {
             "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Enabled"
@@ -949,10 +949,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/securityAlertPolicies",
             "apiVersion": "2018-06-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "state": "Disabled",
@@ -969,11 +969,11 @@
         {
             "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
             "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/current')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/current')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "status": "Enabled"
@@ -982,10 +982,10 @@
         {
             "type": "Microsoft.Sql/servers/databases/vulnerabilityAssessments",
             "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/exp/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('servers_expmssqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]"
+                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
             "properties": {
                 "recurringScans": {
@@ -998,13 +998,13 @@
         {
             "type": "Microsoft.Sql/servers/vulnerabilityAssessments",
             "apiVersion": "2018-06-01-preview",
-            "name": "[concat(parameters('servers_expmssqlserver_name'), '/Default')]",
+            "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers', parameters('servers_expmssqlserver_name'))]",
-                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('storageAccounts_sqlvakrspntmghm4le_name'))]"
+                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]",
+                "[resourceId('Microsoft.Storage/StorageAccounts', parameters('exp_storageaccount_name'))]"
             ],
             "properties": {
-                "storageContainerPath": "[concat('https://', parameters('storageAccounts_sqlvakrspntmghm4le_name'), '.blob.core.windows.net/vulnerability-assessment/')]",
+                "storageContainerPath": "[concat('https://', parameters('exp_storageaccount_name'), '.blob.core.windows.net/vulnerability-assessment/')]",
                 "recurringScans": {
                     "isEnabled": true,
                     "emailSubscriptionAdmins": true,
@@ -1015,10 +1015,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_sqlvakrspntmghm4le_name'), '/default/vulnerability-assessment')]",
+            "name": "[concat(parameters('exp_storageaccount_name'), '/default/vulnerability-assessment')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_sqlvakrspntmghm4le_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_sqlvakrspntmghm4le_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('exp_storageaccount_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('exp_storageaccount_name'))]"
             ],
             "properties": {
                 "publicAccess": "None"
