@@ -29,6 +29,10 @@
         "autoscale_rules_name": {
             "defaultValue": "Auto_scaling_rules",
             "type": "String"
+        },
+        "az_region": {
+            "defaultValue": "eastus",
+            "type": "string"
         }
     },
     "variables": {},
@@ -37,7 +41,7 @@
             "type": "Microsoft.RecoveryServices/vaults",
             "apiVersion": "2020-02-02",
             "name": "[parameters('exp_vault_name')]",
-            "location": "centralus",
+            "location": "[parameters('az_region')]",
             "sku": {
                 "name": "RS0",
                 "tier": "Standard"
@@ -48,7 +52,7 @@
             "type": "Microsoft.Sql/servers",
             "apiVersion": "2019-06-01-preview",
             "name": "[parameters('exp_sqlserver_name')]",
-            "location": "centralus",
+            "location": "[parameters('az_region')]",
             "kind": "v12.0",
             "properties": {
                 "administratorLogin": "ChrisAdmin",
@@ -59,7 +63,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
             "name": "[parameters('exp_storageaccount_name')]",
-            "location": "centralus",
+            "location": "[parameters('az_region')]",
             "sku": {
                 "name": "Standard_LRS",
                 "tier": "Standard"
@@ -92,7 +96,7 @@
             "type": "Microsoft.Web/serverfarms",
             "apiVersion": "2019-08-01",
             "name": "[parameters('exp_asp_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "sku": {
                 "name": "S1",
                 "tier": "Standard",
@@ -116,7 +120,7 @@
             "type": "microsoft.insights/autoscalesettings",
             "apiVersion": "2014-04-01",
             "name": "[parameters('autoscale_rules_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
@@ -218,7 +222,7 @@
             "type": "Microsoft.Sql/servers/auditingPolicies",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/Default')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
@@ -246,7 +250,7 @@
             "type": "Microsoft.Sql/servers/databases",
             "apiVersion": "2019-06-01-preview",
             "name": "[concat(parameters('exp_sqlserver_name'), '/exp')]",
-            "location": "centralus",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
@@ -270,7 +274,7 @@
             "type": "Microsoft.Sql/servers/databases/auditingPolicies",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
@@ -310,7 +314,7 @@
             "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/master/Default')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
@@ -341,7 +345,7 @@
             "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/master/current')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
             ],
@@ -512,7 +516,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('expadmin_site_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
@@ -553,7 +557,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('expauth_site_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
@@ -594,7 +598,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expadmin_site_name'), '/web')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expadmin_site_name'))]"
             ],
@@ -669,7 +673,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expauth_site_name'), '/web')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expauth_site_name'))]"
             ],
@@ -745,7 +749,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expadmin_site_name'), '/', parameters('expadmin_site_name'), '.azurewebsites.net')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expadmin_site_name'))]"
             ],
@@ -758,7 +762,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expauth_site_name'), '/', parameters('expauth_site_name'), '.azurewebsites.net')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expauth_site_name'))]"
             ],
@@ -831,7 +835,7 @@
             "type": "Microsoft.Sql/servers/databases/auditingPolicies",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
@@ -901,7 +905,7 @@
             "type": "Microsoft.Sql/servers/databases/geoBackupPolicies",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/exp/Default')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
@@ -934,7 +938,7 @@
             "type": "Microsoft.Sql/servers/databases/transparentDataEncryption",
             "apiVersion": "2014-04-01",
             "name": "[concat(parameters('exp_sqlserver_name'), '/exp/current')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
                 "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
