@@ -84,8 +84,7 @@
             "name": "[parameters('expstorage_appinsight_name')]",
             "location": "eastus",
             "tags": {
-                "applicationType": "web",
-                "hidden-link:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/expchat/providers/Microsoft.Web/sites/expstorage": "Resource"
+                "applicationType": "web"
             },
             "kind": "web",
             "properties": {
@@ -135,9 +134,7 @@
             "apiVersion": "2018-11-01",
             "name": "[parameters('expchat_site_name')]",
             "location": "Central US",
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "kind": "app",
             "properties": {
                 "enabled": true,
@@ -173,9 +170,7 @@
             "apiVersion": "2018-11-01",
             "name": "[parameters('expstorage_site_name')]",
             "location": "Central US",
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "kind": "app",
             "properties": {
                 "enabled": true,
@@ -251,9 +246,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expchat_site_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "properties": {
                 "numberOfWorkers": 1,
                 "defaultDocuments": [
@@ -326,9 +319,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expstorage_site_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "properties": {
                 "numberOfWorkers": 1,
                 "defaultDocuments": [
@@ -453,9 +444,7 @@
                 "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup1_name'))]",
                 "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup2_name'))]"
             ],
-            "tags": {
-                "hidden-link:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/expchat/providers/microsoft.insights/components/expstorage_application_insight": "Resource"
-            },
+            "tags": {},
             "properties": {
                 "description": "Failure Anomalies notifies you of an unusual rise in the rate of failed HTTP requests or dependency calls",
                 "state": "Enabled",

@@ -529,9 +529,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "kind": "app",
             "properties": {
                 "enabled": true,
@@ -570,9 +568,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "kind": "app",
             "properties": {
                 "enabled": true,
@@ -611,9 +607,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expadmin_site_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourceGroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "properties": {
                 "numberOfWorkers": 1,
                 "defaultDocuments": [
@@ -686,9 +680,7 @@
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expauth_site_name'))]"
             ],
-            "tags": {
-                "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
-            },
+            "tags": {},
             "properties": {
                 "numberOfWorkers": 1,
                 "defaultDocuments": [
