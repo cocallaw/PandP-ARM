@@ -5,31 +5,31 @@
         "components_expstorage_application_insight_WorkspaceResourceId": {
             "type": "SecureString"
         },
-        "sites_expchat_name": {
+        "expchat_site_name": {
             "defaultValue": "expchat",
             "type": "String"
         },
-        "sites_expstorage_name": {
+        "expstorage_site_name": {
             "defaultValue": "expstorage",
             "type": "String"
         },
-        "actionGroups_Migration_AG1_name": {
+        "Migration_ActGroup1_name": {
             "defaultValue": "Migration_AG1",
             "type": "String"
         },
-        "actionGroups_Migration_AG2_name": {
+        "Migration_ActGroup2_name": {
             "defaultValue": "Migration_AG2",
             "type": "String"
         },
-        "storageAccounts_expdatastorage_name": {
+        "expdata_storageacct_name": {
             "defaultValue": "expdatastorage",
             "type": "String"
         },
-        "components_expstorage_application_insight_name": {
+        "expstorage_appinsight_name": {
             "defaultValue": "expstorage_application_insight",
             "type": "String"
         },
-        "smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name": {
+        "rule_failure_anomalies_expstorage_appinsight_name": {
             "defaultValue": "failure anomalies - expstorage_application_insight",
             "type": "String"
         },
@@ -43,7 +43,7 @@
         {
             "type": "microsoft.insights/actionGroups",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('actionGroups_Migration_AG1_name')]",
+            "name": "[parameters('Migration_ActGroup1_name')]",
             "location": "Global",
             "properties": {
                 "groupShortName": "Migrated1",
@@ -62,7 +62,7 @@
         {
             "type": "microsoft.insights/actionGroups",
             "apiVersion": "2019-03-01",
-            "name": "[parameters('actionGroups_Migration_AG2_name')]",
+            "name": "[parameters('Migration_ActGroup2_name')]",
             "location": "Global",
             "properties": {
                 "groupShortName": "Migrated2",
@@ -81,7 +81,7 @@
         {
             "type": "microsoft.insights/components",
             "apiVersion": "2020-02-02-preview",
-            "name": "[parameters('components_expstorage_application_insight_name')]",
+            "name": "[parameters('expstorage_appinsight_name')]",
             "location": "eastus",
             "tags": {
                 "applicationType": "web",
@@ -100,7 +100,7 @@
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
-            "name": "[parameters('storageAccounts_expdatastorage_name')]",
+            "name": "[parameters('expdata_storageacct_name')]",
             "location": "centralus",
             "sku": {
                 "name": "Standard_RAGRS",
@@ -133,7 +133,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[parameters('sites_expchat_name')]",
+            "name": "[parameters('expchat_site_name')]",
             "location": "Central US",
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -143,12 +143,12 @@
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('sites_expchat_name'), '.azurewebsites.net')]",
+                        "name": "[concat(parameters('expchat_site_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "[concat(parameters('sites_expchat_name'), '.scm.azurewebsites.net')]",
+                        "name": "[concat(parameters('expchat_site_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
@@ -171,7 +171,7 @@
         {
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
-            "name": "[parameters('sites_expstorage_name')]",
+            "name": "[parameters('expstorage_site_name')]",
             "location": "Central US",
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -181,12 +181,12 @@
                 "enabled": true,
                 "hostNameSslStates": [
                     {
-                        "name": "[concat(parameters('sites_expstorage_name'), '.azurewebsites.net')]",
+                        "name": "[concat(parameters('expstorage_site_name'), '.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Standard"
                     },
                     {
-                        "name": "[concat(parameters('sites_expstorage_name'), '.scm.azurewebsites.net')]",
+                        "name": "[concat(parameters('expstorage_site_name'), '.scm.azurewebsites.net')]",
                         "sslState": "Disabled",
                         "hostType": "Repository"
                     }
@@ -209,9 +209,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default')]",
+            "name": "[concat(parameters('expdata_storageacct_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('expdata_storageacct_name'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -229,9 +229,9 @@
         {
             "type": "Microsoft.Storage/storageAccounts/fileServices",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default')]",
+            "name": "[concat(parameters('expdata_storageacct_name'), '/default')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('expdata_storageacct_name'))]"
             ],
             "sku": {
                 "name": "Standard_RAGRS",
@@ -246,10 +246,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expchat_name'), '/web')]",
+            "name": "[concat(parameters('expchat_site_name'), '/web')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expchat_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expchat_site_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -321,10 +321,10 @@
         {
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expstorage_name'), '/web')]",
+            "name": "[concat(parameters('expstorage_site_name'), '/web')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expstorage_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expstorage_site_name'))]"
             ],
             "tags": {
                 "hidden-related:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/exp_resource_group/providers/Microsoft.Web/serverfarms/ServicePlanec4146c7-a0d3": "empty"
@@ -396,10 +396,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expchat_name'), '/', parameters('sites_expchat_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('expchat_site_name'), '/', parameters('expchat_site_name'), '.azurewebsites.net')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expchat_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expchat_site_name'))]"
             ],
             "properties": {
                 "siteName": "expchat",
@@ -409,10 +409,10 @@
         {
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
-            "name": "[concat(parameters('sites_expstorage_name'), '/', parameters('sites_expstorage_name'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('expstorage_site_name'), '/', parameters('expstorage_site_name'), '.azurewebsites.net')]",
             "location": "Central US",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites', parameters('sites_expstorage_name'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('expstorage_site_name'))]"
             ],
             "properties": {
                 "siteName": "expstorage",
@@ -422,10 +422,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default/dev')]",
+            "name": "[concat(parameters('expdata_storageacct_name'), '/default/dev')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_expdatastorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('expdata_storageacct_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('expdata_storageacct_name'))]"
             ],
             "properties": {
                 "publicAccess": "None"
@@ -434,10 +434,10 @@
         {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
-            "name": "[concat(parameters('storageAccounts_expdatastorage_name'), '/default/prod')]",
+            "name": "[concat(parameters('expdata_storageacct_name'), '/default/prod')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('storageAccounts_expdatastorage_name'), 'default')]",
-                "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccounts_expdatastorage_name'))]"
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', parameters('expdata_storageacct_name'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', parameters('expdata_storageacct_name'))]"
             ],
             "properties": {
                 "publicAccess": "None"
@@ -446,12 +446,12 @@
         {
             "type": "microsoft.alertsmanagement/smartdetectoralertrules",
             "apiVersion": "2019-06-01",
-            "name": "[parameters('smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name')]",
+            "name": "[parameters('rule_failure_anomalies_expstorage_appinsight_name')]",
             "location": "global",
             "dependsOn": [
-                "[resourceId('microsoft.insights/components', parameters('components_expstorage_application_insight_name'))]",
-                "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG1_name'))]",
-                "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG2_name'))]"
+                "[resourceId('microsoft.insights/components', parameters('expstorage_appinsight_name'))]",
+                "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup1_name'))]",
+                "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup2_name'))]"
             ],
             "tags": {
                 "hidden-link:/subscriptions/021c574f-3dba-439f-a6fc-a23aa5c44bf6/resourcegroups/expchat/providers/microsoft.insights/components/expstorage_application_insight": "Resource"
@@ -470,12 +470,12 @@
                     ]
                 },
                 "scope": [
-                    "[resourceId('microsoft.insights/components', parameters('components_expstorage_application_insight_name'))]"
+                    "[resourceId('microsoft.insights/components', parameters('expstorage_appinsight_name'))]"
                 ],
                 "actionGroups": {
                     "groupIds": [
-                        "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG1_name'))]",
-                        "[resourceId('microsoft.insights/actionGroups', parameters('actionGroups_Migration_AG2_name'))]"
+                        "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup1_name'))]",
+                        "[resourceId('microsoft.insights/actionGroups', parameters('Migration_ActGroup2_name'))]"
                     ]
                 }
             }

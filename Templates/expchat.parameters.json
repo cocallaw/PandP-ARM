@@ -5,25 +5,25 @@
         "components_expstorage_application_insight_WorkspaceResourceId": {
             "value": null
         },
-        "sites_expchat_name": {
+        "expchat_site_name": {
             "value": null
         },
-        "sites_expstorage_name": {
+        "expstorage_site_name": {
             "value": null
         },
-        "actionGroups_Migration_AG1_name": {
+        "Migration_ActGroup1_name": {
             "value": null
         },
-        "actionGroups_Migration_AG2_name": {
+        "Migration_ActGroup2_name": {
             "value": null
         },
-        "storageAccounts_expdatastorage_name": {
+        "expdata_storageacct_name": {
             "value": null
         },
-        "components_expstorage_application_insight_name": {
+        "expstorage_appinsight_name": {
             "value": null
         },
-        "smartdetectoralertrules_failure_anomalies___expstorage_application_insight_name": {
+        "rule_failure_anomalies_expstorage_appinsight_name": {
             "value": null
         },
         "serverfarms_ServicePlanec4146c7_a0d3_externalid": {
