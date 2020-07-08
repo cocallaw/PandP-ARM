@@ -26,7 +26,7 @@
         "rule_failure_anomalies_expstorage_appinsight_name": {
             "value": null
         },
-        "serverfarms_ServicePlanec4146c7_a0d3_externalid": {
+        "exp_appsvcplan_resourceID": {
             "value": null
         }
     }
