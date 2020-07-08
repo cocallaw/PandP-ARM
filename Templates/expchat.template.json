@@ -36,6 +36,10 @@
         "exp_appsvcplan_resourceID": {
             "defaultValue": "exp_appsvcplan_resourceID",
             "type": "String"
+        },
+        "az_region": {
+            "defaultValue": "eastus",
+            "type": "string"
         }
     },
     "variables": {},
@@ -82,7 +86,7 @@
             "type": "microsoft.insights/components",
             "apiVersion": "2020-02-02-preview",
             "name": "[parameters('expstorage_appinsight_name')]",
-            "location": "eastus",
+            "location": "[parameters('az_region')]",
             "tags": {
                 "applicationType": "web"
             },
@@ -100,7 +104,7 @@
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
             "name": "[parameters('expdata_storageacct_name')]",
-            "location": "centralus",
+            "location": "[parameters('az_region')]",
             "sku": {
                 "name": "Standard_RAGRS",
                 "tier": "Standard"
@@ -133,7 +137,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('expchat_site_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "tags": {},
             "kind": "app",
             "properties": {
@@ -169,7 +173,7 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2018-11-01",
             "name": "[parameters('expstorage_site_name')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "tags": {},
             "kind": "app",
             "properties": {
@@ -242,7 +246,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expchat_site_name'), '/web')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expchat_site_name'))]"
             ],
@@ -315,7 +319,7 @@
             "type": "Microsoft.Web/sites/config",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expstorage_site_name'), '/web')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expstorage_site_name'))]"
             ],
@@ -388,7 +392,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expchat_site_name'), '/', parameters('expchat_site_name'), '.azurewebsites.net')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expchat_site_name'))]"
             ],
@@ -401,7 +405,7 @@
             "type": "Microsoft.Web/sites/hostNameBindings",
             "apiVersion": "2018-11-01",
             "name": "[concat(parameters('expstorage_site_name'), '/', parameters('expstorage_site_name'), '.azurewebsites.net')]",
-            "location": "Central US",
+            "location": "[parameters('az_region')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites', parameters('expstorage_site_name'))]"
             ],

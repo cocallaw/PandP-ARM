@@ -28,6 +28,9 @@
         },
         "exp_appsvcplan_resourceID": {
             "value": null
+        },
+        "az_region": {
+            "value": ""
         }
     }
 }

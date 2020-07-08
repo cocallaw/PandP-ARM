@@ -28,6 +28,9 @@
         },
         "autoscale_rules_name": {
             "value": null
+        },
+        "az_region": {
+            "value": ""
         }
     }
 }
