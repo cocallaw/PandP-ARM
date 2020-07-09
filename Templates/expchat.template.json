@@ -7,39 +7,65 @@
         },
         "expchat_site_name": {
             "defaultValue": "expchat",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expchat App Service Site Name"
+            }
         },
         "expstorage_site_name": {
             "defaultValue": "expstorage",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expstorage App Service Site Name"
+            }
         },
         "Migration_ActGroup1_name": {
             "defaultValue": "Migration_AG1",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Migration Action Group 1 Name"
+            }
         },
         "Migration_ActGroup2_name": {
             "defaultValue": "Migration_AG2",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Migration Action Group 2 Name"
+            }
         },
         "expdata_storageacct_name": {
             "defaultValue": "expdatastorage",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expdata Storage Account Name"
+            }
         },
         "expstorage_appinsight_name": {
             "defaultValue": "expstorage_application_insight",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expstroage Application Insights Name"
+            }
         },
         "rule_failure_anomalies_expstorage_appinsight_name": {
             "defaultValue": "failure anomalies - expstorage_application_insight",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expstroage Application Insights Name Failure Anomalies Rule"
+            }
         },
         "exp_appsvcplan_resourceID": {
             "defaultValue": "exp_appsvcplan_resourceID",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Resource of the exp App Service Plan to deploy app services into"
+            }
         },
         "az_region": {
-            "defaultValue": "eastus",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description" :"Region Azure will be deployed to"
+            }
         }
     },
     "variables": {},

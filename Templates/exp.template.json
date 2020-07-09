@@ -4,43 +4,70 @@
     "parameters": {
         "expauth_site_name": {
             "defaultValue": "expauth",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expauth App Service Site Name"
+            }
         },
         "expadmin_site_name": {
             "defaultValue": "expadmin",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"expadmin App Service Site Name"
+            }
         },
         "exp_sqlserver_name": {
             "defaultValue": "expmssqlserver",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Azure SQL Server Name for exp"
+            }
         },
         "exp_sqlserver_login": {
             "defaultValue": "ChrisAdmin",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Azure SQL Server Login Username"
+            }
         },
         "exp_sqlserver_password": {
             "defaultValue": "SuperSecret",
-            "type": "SecureString"
+            "type": "SecureString",
+            "metadata": {
+                "description" :"Azure SQL Server Login Username"
+            }
         },
         "exp_vault_name": {
-            "defaultValue": "expresourcegroup",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Recovery Services Vault Name for exp"
+            }
         },
         "exp_asp_name": {
-            "defaultValue": "CHANGE TO VAR WITH RANDOM CONCAT / ASP",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Name of the App Service Plan for exp"
+            }
         },
         "exp_storageaccount_name": {
-            "defaultValue": "CHANGE TO VAR WITH RANDOM CONCAT",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Name of the Storage Account for exp"
+            }
         },
         "autoscale_rules_name": {
             "defaultValue": "Auto_scaling_rules",
-            "type": "String"
+            "type": "String",
+            "metadata": {
+                "description" :"Auto Scaling Rules Name"
+            }
         },
         "az_region": {
             "defaultValue": "eastus",
-            "type": "string"
+            "type": "string",
+            "metadata": {
+                "description" :"Resource of the exp App Service Plan to deploy app services into"
+            }
         }
     },
     "variables": {},
