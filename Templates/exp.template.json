@@ -993,5 +993,11 @@
                 "publicAccess": "None"
             }
         }
-    ]
+    ],
+    "outputs": {
+        "resourceID": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Web/serverfarms', parameters('exp_asp_name'))]"
+        }
+    }
 }
