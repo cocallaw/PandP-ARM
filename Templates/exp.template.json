@@ -629,45 +629,6 @@
             }
         },
         {
-            "type": "Microsoft.Sql/servers/databases/advisors",
-            "apiVersion": "2014-04-01",
-            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/ForceLastGoodPlan')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
-            ],
-            "properties": {
-                "autoExecuteValue": "Enabled"
-            }
-        },
-        {
-            "type": "Microsoft.Sql/servers/databases/backupLongTermRetentionPolicies",
-            "apiVersion": "2017-03-01-preview",
-            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
-            ],
-            "properties": {
-                "weeklyRetention": "PT0S",
-                "monthlyRetention": "PT0S",
-                "yearlyRetention": "PT0S",
-                "weekOfYear": 0
-            }
-        },
-        {
-            "type": "Microsoft.Sql/servers/databases/backupShortTermRetentionPolicies",
-            "apiVersion": "2017-10-01-preview",
-            "name": "[concat(parameters('exp_sqlserver_name'), '/exp/default')]",
-            "dependsOn": [
-                "[resourceId('Microsoft.Sql/servers/databases', parameters('exp_sqlserver_name'), 'exp')]",
-                "[resourceId('Microsoft.Sql/servers', parameters('exp_sqlserver_name'))]"
-            ],
-            "properties": {
-                "retentionDays": 7
-            }
-        },
-        {
             "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
             "apiVersion": "2019-06-01",
             "name": "[concat(parameters('exp_storageaccount_name'), '/default/vulnerability-assessment')]",
