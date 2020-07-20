@@ -2,79 +2,94 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "components_expstorage_application_insight_WorkspaceResourceId": {
-            "type": "SecureString"
+
+        "expstorage_AppInsights_LogAnalyticsWorksapce_Name": {
+            "type": "String"
         },
         "expchat_site_name": {
             "defaultValue": "expchat",
             "type": "String",
             "metadata": {
-                "description" :"expchat App Service Site Name"
+                "description": "expchat App Service Site Name"
             }
         },
         "expstorage_site_name": {
             "defaultValue": "expstorage",
             "type": "String",
             "metadata": {
-                "description" :"expstorage App Service Site Name"
+                "description": "expstorage App Service Site Name"
             }
         },
         "Migration_ActGroup1_name": {
             "defaultValue": "Migration_AG1",
             "type": "String",
             "metadata": {
-                "description" :"Migration Action Group 1 Name"
+                "description": "Migration Action Group 1 Name"
             }
         },
         "Migration_ActGroup2_name": {
             "defaultValue": "Migration_AG2",
             "type": "String",
             "metadata": {
-                "description" :"Migration Action Group 2 Name"
+                "description": "Migration Action Group 2 Name"
             }
         },
         "expdata_storageacct_name": {
             "defaultValue": "expdatastorage",
             "type": "String",
             "metadata": {
-                "description" :"expdata Storage Account Name"
+                "description": "expdata Storage Account Name"
             }
         },
         "expstorage_appinsight_name": {
             "defaultValue": "expstorage_application_insight",
             "type": "String",
             "metadata": {
-                "description" :"expstroage Application Insights Name"
+                "description": "expstroage Application Insights Name"
             }
         },
         "rule_failure_anomalies_expstorage_appinsight_name": {
             "defaultValue": "failure anomalies - expstorage_application_insight",
             "type": "String",
             "metadata": {
-                "description" :"expstroage Application Insights Name Failure Anomalies Rule"
+                "description": "expstroage Application Insights Name Failure Anomalies Rule"
             }
         },
         "exp_appsvcplan_resourceID": {
             "defaultValue": "exp_appsvcplan_resourceID",
             "type": "String",
             "metadata": {
-                "description" :"Resource of the exp App Service Plan to deploy app services into"
+                "description": "Resource of the exp App Service Plan to deploy app services into"
             }
         },
         "az_region": {
             "type": "string",
             "metadata": {
-                "description" :"Region Azure will be deployed to"
+                "description": "Region Azure will be deployed to"
             }
         }
     },
     "variables": {},
     "resources": [
         {
+            "apiVersion": "2017-03-15-preview",
+            "name": "[parameters('expstorage_AppInsights_LogAnalyticsWorksapce_Name')]",
+            "location": "[parameters('az_region')]",
+            "type": "Microsoft.OperationalInsights/workspaces",
+            "properties": {
+                "sku": {
+                    "name": "pergb2018"
+                }
+            }
+        },
+        {
             "type": "microsoft.insights/actionGroups",
             "apiVersion": "2019-03-01",
             "name": "[parameters('Migration_ActGroup1_name')]",
             "location": "Global",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('expstorage_AppInsights_LogAnalyticsWorksapce_Name'))]"
+            ],
             "properties": {
                 "groupShortName": "Migrated1",
                 "enabled": true,
@@ -94,6 +109,9 @@
             "apiVersion": "2019-03-01",
             "name": "[parameters('Migration_ActGroup2_name')]",
             "location": "Global",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('expstorage_AppInsights_LogAnalyticsWorksapce_Name'))]"
+            ],
             "properties": {
                 "groupShortName": "Migrated2",
                 "enabled": true,
@@ -113,6 +131,9 @@
             "apiVersion": "2020-02-02-preview",
             "name": "[parameters('expstorage_appinsight_name')]",
             "location": "[parameters('az_region')]",
+            "dependsOn": [
+                "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('expstorage_AppInsights_LogAnalyticsWorksapce_Name'))]"
+            ],
             "tags": {
                 "applicationType": "web"
             },
@@ -123,7 +144,7 @@
                 "Request_Source": "AppServiceEnablementCreate",
                 "publicNetworkAccessForIngestion": "Enabled",
                 "publicNetworkAccessForQuery": "Enabled",
-                "WorkspaceResourceId": "[parameters('components_expstorage_application_insight_WorkspaceResourceId')]"
+                "WorkspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', parameters('expstorage_AppInsights_LogAnalyticsWorksapce_Name'))]"
             }
         },
         {
